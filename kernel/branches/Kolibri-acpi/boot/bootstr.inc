@@ -48,14 +48,25 @@ verstr:
 ;               line_space
 ; version string
         db 186,32
-        repeat 78
-                load a byte from version+%-1
-                if a = 13
-                        break
-                end if
-                db a
-        end repeat
+        ; به جای KolibriOS می‌نویسیم: مهرداد
+        db ' MehradOS SVN '
+        ; شماره ریویژن را نگه می‌داریم
+        rev_var = __REV__
+        while rev_var > 0
+                db rev_var mod 10 + '0'
+                rev_var = rev_var / 10
+        end while
+        ; فضای خالی باقی مانده را پر می‌کنیم
         repeat 78 - ($-verstr)
+                db      ' '
+        end repeat
+        db 32,186
+                line_space  ; خط اضافی برای نسخه
+version_line:
+        db 186,32
+        db 'Version 1.0'  ; نسخه را روی 1.0 تنظیم می‌کنیم
+        ; فضای خالی باقی مانده را پر می‌کنیم
+        repeat 78 - ($-version_line)
                 db      ' '
         end repeat
         db 32,186
